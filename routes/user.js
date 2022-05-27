@@ -28,4 +28,8 @@ router.get("/login", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> dev
