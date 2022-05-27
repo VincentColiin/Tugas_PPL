@@ -18,11 +18,16 @@
   },
   "homepage": "https://github.com/VincentColiin/Tugas_PPL#readme",
   "dependencies": {
+    "body-parser": "^1.20.0",
+    "config": "^3.3.7",
     "express": "^4.18.1",
     "mongodb": "^4.6.0",
     "mongoose": "^6.3.4"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.16"
   }
 }
