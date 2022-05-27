@@ -1,41 +1,29 @@
 const express = require('express');
-const port = 8080;
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const bodyparser = require('body-parser');
+const config = require('config');
 
+const port = 8080;
 const app = express();
 
-app.use(express.json());
+app.use(bodyparser.json());
+app.use(bodyparser.text());
+app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyparser.json({ type: 'application/json' }))
 
-class User {
-    contructor(username, password) {
-        this.username = username;
-        this.password = password;
-    }
-}
+mongoose.connect(config.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+mongoose.connection.on('err', console.error.bind(console, 'connection error:'));
 
-var user = new User();
+if (config.util.getEnv('NODE_ENV') != 'test') app.use(morgan('combined'));
 
-app.post('/register', async (req, res) => {
-    var tempUser = req.query;
-    if (tempUser.username != undefined && tempUser.password != undefined) {
-        user.username = tempUser.username;
-        user.password = tempUser.password;
-        res.status(200).send({ message: 'User sudah tersimpan' });
-    } else {
-        res.status(418).send({ message: 'username/password tidak memenuhi kriteria' });
-    }
-})
-
-app.get('/login', async(req, res) => {
-    var tempUser = req.query;
-    if (tempUser.username == user.username && tempUser.password == user.password) {
-        res.status(200).send({ message: 'login berhasil' });
-    } else {
-        res.status(418).send({ message: 'username/password salah' });
-    }
-})
+app.use('/user', require('./routes/user'));
 
 app.get('/', async (req, res) => {
-    res.status(200).send('connected');
+    res.status(200).send('Connected');
 })
 
 app.listen(
@@ -43,3 +31,4 @@ app.listen(
     () => console.log('API berjalan di Port : ' + port)
 );
 
+module.exports = app;
