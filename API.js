@@ -15,10 +15,10 @@ app.use(bodyparser.json({ type: 'application/json' }))
 mongoose.connect(config.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
-mongoose.connection.on('err', console.error.bind(console, 'connection error:'));
-mongoose.connection.on('open', () => {
-    console.log('Connected to DataBase');
+}).then(() => {
+    console.log("Conected to Database");
+}).catch((err) => {
+    console.log(err);
 })
 
 if (config.util.getEnv('NODE_ENV') != 'test') app.use(morgan('combined'));

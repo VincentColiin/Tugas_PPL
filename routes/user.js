@@ -4,17 +4,17 @@ const router = express.Router();
 const User = require("../models/User");
 
 router.get('/', (req, res) => {
-    try {
-        const userList = User.find();
-        res.json(userList);
-    }
-    catch {
-        res.status(418).send({message: "ada masalah koneksi ke database"})
-    }
+    User.find({}).then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        res.status(500).json({
+            message: err
+        })
+    })
 })
 
 router.post("/register", (req, res) => {
-  var tempUser = req.query;
+  var tempUser = req.body;
     if (tempUser.username != undefined && tempUser.password != undefined) {
         const newUser = new User({
             username: tempUser.username,
@@ -29,8 +29,8 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-    var tempUser = req.query;
-    var username = req.query.username
+    var tempUser = req.body;
+    var username = req.body.username
     var oldUser = User.findOne({username});
     if (oldUser != null && oldUser.password == tempUser.password) {
     res.status(200).send({ message: "login berhasil" });

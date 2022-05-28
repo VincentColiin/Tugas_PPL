@@ -4,8 +4,8 @@
   "description": "",
   "main": "API.js",
   "scripts": {
-    "start": "nodemon API.js",
-    "test": "mocha --running testing"
+    "test": "mocha --timeout 10000",
+    "start": "SET NODE_ENV=dev && nodemon API.js"
   },
   "repository": {
     "type": "git",
