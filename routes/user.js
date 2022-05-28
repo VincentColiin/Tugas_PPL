@@ -28,9 +28,10 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     var tempUser = req.query;
-    var oldUser = await User.findOne(tempUser.username);
+    var username = req.query.username
+    var oldUser = await User.findOne({username});
     if (oldUser != null && oldUser.password == tempUser.password) {
     res.status(200).send({ message: "login berhasil" });
     } else {
