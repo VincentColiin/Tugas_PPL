@@ -17,6 +17,9 @@ mongoose.connect(config.DB, {
     useUnifiedTopology: true
 });
 mongoose.connection.on('err', console.error.bind(console, 'connection error:'));
+mongoose.connection.on('open', () => {
+    console.log('Connected to DataBase');
+})
 
 if (config.util.getEnv('NODE_ENV') != 'test') app.use(morgan('combined'));
 
